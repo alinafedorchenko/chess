@@ -1,0 +1,55 @@
+body {
+    background: #bffff8;
+    font-family: 'Bubbler One', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+input[type=number]:focus {
+    border: 2px solid #23f7d0;
+}
+
+input[type=number] {
+    width: 100px;
+    padding: 12px 25px;
+    font-family: 'Bubbler One', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.none {
+    display: none;
+}
+
+#app {
+    margin: 40px 0 0 250px;
+    border: none;
+}
+
+table {
+    border-spacing: 3px;
+}
+
+td, th {
+    border: 1px solid #000000;
+}
+
+td {
+    background-color: #000000;
+    min-width: 60px;
+    height: 60px;
+}
+
+tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
+    background: white;
+}
+
+.queen {
+    background: url(http://download.seaicons.com/icons/femfoyou/angry-birds/64/angry-bird-icon.png) no-repeat center !important;
+    transition: 0.3s linear;
+}
+
+.queen:hover {
+    background: url(http://www.game-game.com.ua/ui/css/images/tags/791.jpg) no-repeat center !important;
+}
