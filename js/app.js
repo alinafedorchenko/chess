@@ -1,12 +1,22 @@
 class Board extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
+        this.state = {n: 5};
         this.result = [];
+        this.listQueen = [];
+        this.onInputChanged = this.onInputChanged.bind(this);
+        this.board = new Array(this.state.n).fill(new Array(this.state.n).fill(0));
+    }
+
+    onInputChanged(newSize) {
+        this.setState({ n: newSize});
+        this.listQueen = [];
+        this.board = new Array(parseInt(newSize)).fill(new Array(parseInt(newSize)).fill(0));
     }
 
     allow(i, j) {
         var result = true;
-        this.props.listQueen.forEach(function(queen){
+        this.listQueen.forEach(function(queen){
             if (i === queen['i'] || j === queen['j'] ||  Math.abs(i - queen['i']) === Math.abs(j - queen['j'])){
                 result =  false;
             }
@@ -15,43 +25,48 @@ class Board extends React.Component {
     }
 
     do_task(i = 0) {
-    for(var j = 0; j < this.props.n; j++) {
+
+    for(var j = 0; j < this.state.n; j++) {
         if (this.allow(i, j)) {
-            this.props.board[i][j] = 1;
-            this.props.listQueen.push({i: i, j: j});
-            if (i === this.props.n-1) {
-                this.result = this.props.listQueen.map(function(num) {
+            this.board[i][j] = 1;
+            this.listQueen.push({i: i, j: j});
+            if (i === this.state.n-1) {
+                this.result = this.listQueen.map(function(num) {
                     return num;
                 });
                 break;
             } else {
                 this.do_task(i+1)
             }
-            this.props.board[i][j] = 0;
-            let index = this.props.listQueen.indexOf({i: i, j: j});
-            this.props.listQueen.splice(index);
+            this.board[i][j] = 0;
+            let index = this.listQueen.indexOf({i: i, j: j});
+            this.listQueen.splice(index);
         }
       }
     }
 
     render() {
-        this.do_task();
-        let rows = [],
-            n = this.props.n,
-            queens = this.result;
-        for (var i=0; i < n; i++){
-            let cells = [];
-            for (var j=0; j < n; j++) {
-                let queenClass = '';
-                if (queens[i]['i'] === i && queens[i]['j'] === j){
-                    queenClass = 'queen';
+        let n = this.state.n,
+            rows = [];
+        if (n < 20) {
+            this.do_task();
+            let queens = this.result;
+            for (var i=0; i < n; i++){
+                let cells = [];
+                for (var j=0; j < n; j++) {
+                    let queenClass = '';
+                    if (queens[i]['i'] === i && queens[i]['j'] === j){
+                        queenClass = 'queen';
+                    }
+                    cells.push(<td key={j} className={queenClass}></td>);
                 }
-                cells.push(<td key={j} className={queenClass}></td>);
-            }
-            rows.push(<tr key={i}>{cells}</tr>);
-        };
+                rows.push(<tr key={i}>{cells}</tr>);
+            };
+        }
+
         return (
-            <div>
+            <div id="app">
+                <Input callbackParent={this.onInputChanged}/>
                 <table>
                     <tbody>
                         {rows}
@@ -62,30 +77,39 @@ class Board extends React.Component {
     }
 }
 
-class App extends React.Component {
+class Input extends React.Component {
     constructor() {
         super();
-        this.state = {value: 12, listQueen: []};
+        this.state = {value: 5};
         this.handleChange = this.handleChange.bind(this);
-        this.board = new Array(this.state.value).fill(new Array(this.state.value).fill(0));
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value, listQueen: []});
+        this.setState({value: event.target.value});
+        this.props.callbackParent(event.target.value);
     }
 
     render() {
         return (
-            <div id="app">
+            <div>
                 <input
                     type="number"
                     value={this.state.value}
                     onChange={this.handleChange}
                     min="4"
-                    max="12"
+                    max="19"
                 />
-                <p>Enter number from 4 to 12</p>
-                <Board n={this.state.value} listQueen={this.state.listQueen} board={this.board}/>
+            </div>
+        )
+    }
+}
+
+
+class App extends React.Component {
+    render() {
+        return (
+            <div id="app">
+                <Board />
             </div>
         )
     }
