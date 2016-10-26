@@ -1,17 +1,23 @@
 class Board extends React.Component {
     constructor() {
         super();
-        this.state = {n: 5};
+        this.state = {n: 5, res: 0};
         this.result = [];
         this.listQueen = [];
-        this.onInputChanged = this.onInputChanged.bind(this);
+        this.onSizeChanged = this.onSizeChanged.bind(this);
+        this.onResultChanged = this.onResultChanged.bind(this);
         this.board = new Array(this.state.n).fill(new Array(this.state.n).fill(0));
     }
 
-    onInputChanged(newSize) {
-        this.setState({ n: newSize});
+    onSizeChanged(newSize) {
+        this.setState({n: newSize, res: 0});
         this.listQueen = [];
         this.board = new Array(parseInt(newSize)).fill(new Array(parseInt(newSize)).fill(0));
+        this.result = [];
+    }
+
+    onResultChanged(newRes) {
+        this.setState({res: newRes});
     }
 
     allow(i, j) {
@@ -31,10 +37,7 @@ class Board extends React.Component {
             this.board[i][j] = 1;
             this.listQueen.push({i: i, j: j});
             if (i === this.state.n-1) {
-                this.result = this.listQueen.map(function(num) {
-                    return num;
-                });
-                break;
+                this.result.push(this.listQueen.map(function(num) { return num; }));
             } else {
                 this.do_task(i+1)
             }
@@ -46,11 +49,13 @@ class Board extends React.Component {
     }
 
     render() {
+        if (this.result.length == 0) {
+            this.do_task();
+        }
         let n = this.state.n,
             rows = [];
         if (n < 20) {
-            this.do_task();
-            let queens = this.result;
+            let queens = this.result[this.state.res];
             for (var i=0; i < n; i++){
                 let cells = [];
                 for (var j=0; j < n; j++) {
@@ -66,7 +71,8 @@ class Board extends React.Component {
 
         return (
             <div id="app">
-                <Input callbackParent={this.onInputChanged}/>
+                <Input onSizeChanged={this.onSizeChanged} onResultChanged={this.onResultChanged}/>
+                <p>You have {this.result.length} solutions</p>
                 <table>
                     <tbody>
                         {rows}
@@ -80,24 +86,38 @@ class Board extends React.Component {
 class Input extends React.Component {
     constructor() {
         super();
-        this.state = {value: 5};
-        this.handleChange = this.handleChange.bind(this);
+        this.state = {value: 5, res: 0};
+        this.handleSizeChange = this.handleSizeChange.bind(this);
+        this.handleResultChange = this.handleResultChange.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
-        this.props.callbackParent(event.target.value);
+    handleSizeChange(event) {
+        this.setState({value: event.target.value, res: 0});
+        this.props.onSizeChanged(event.target.value);
+    }
+
+    handleResultChange(event) {
+        this.setState({res: event.target.value});
+        this.props.onResultChanged(event.target.value);
     }
 
     render() {
         return (
             <div>
+                <p>Size:</p>
                 <input
                     type="number"
                     value={this.state.value}
-                    onChange={this.handleChange}
+                    onChange={this.handleSizeChange}
                     min="4"
                     max="19"
+                />
+                <p>Solution: </p>
+                <input
+                    type="number"
+                    value={this.state.res}
+                    onChange={this.handleResultChange}
+                    min="0"
                 />
             </div>
         )
