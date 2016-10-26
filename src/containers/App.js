@@ -6,19 +6,17 @@ class Board extends Component {
     this.state = {n: 5, res: 0};
     this.result = [];
     this.listQueen = [];
-    this.onSizeChanged = this.onSizeChanged.bind(this);
-    this.onResultChanged = this.onResultChanged.bind(this);
     this.board = new Array(this.state.n).fill(new Array(this.state.n).fill(0));
   }
 
-  onSizeChanged(newSize) {
+  onSizeChanged = (newSize) =>{
     this.setState({n: newSize, res: 0});
     this.listQueen = [];
     this.board = new Array(parseInt(newSize)).fill(new Array(parseInt(newSize)).fill(0));
     this.result = [];
   }
 
-  onResultChanged(newRes) {
+  onResultChanged = (newRes) => {
     this.setState({res: newRes});
   }
 
@@ -89,16 +87,14 @@ class Input extends React.Component {
   constructor() {
     super();
     this.state = {value: 5, res: 0};
-    this.handleSizeChange = this.handleSizeChange.bind(this);
-    this.handleResultChange = this.handleResultChange.bind(this);
   }
 
-  handleSizeChange(event) {
+  handleSizeChange = (event) => {
     this.setState({value: event.target.value, res: 0});
     this.props.onSizeChanged(event.target.value);
   }
 
-  handleResultChange(event) {
+  handleResultChange = (event) => {
     this.setState({res: event.target.value});
     this.props.onResultChanged(event.target.value);
   }
