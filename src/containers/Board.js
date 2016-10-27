@@ -67,7 +67,7 @@ export default class Board extends Component {
                     cells.push(<td key={j} className={queenClass}></td>);
                 }
                 rows.push(<tr key={i}>{cells}</tr>);
-            };
+            }
         }
 
         return (
