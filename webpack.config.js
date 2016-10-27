@@ -42,6 +42,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: "style-loader!css-loader!postcss-loader"
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                loader: "file-loader?name=img/img-[hash:6].[ext]"
             }
         ]
     },

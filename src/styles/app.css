@@ -53,3 +53,12 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 .queen:hover {
     background: url(http://www.game-game.com.ua/ui/css/images/tags/791.jpg) no-repeat center !important;
 }
+
+.wale {
+    background: url(../images/wale.png) no-repeat;
+    width: 316px;
+    height: 183px;
+    position: fixed;
+    bottom: 0;
+    right: 30px;
+}

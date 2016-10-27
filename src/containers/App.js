@@ -6,6 +6,7 @@ export default class App extends Component {
     return (
         <div id="app">
           <Board />
+          <div className="wale"></div>
         </div>
     )
   }

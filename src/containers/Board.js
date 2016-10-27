@@ -55,7 +55,7 @@ export default class Board extends Component {
         }
         let n = this.state.n,
             rows = [];
-        if (n < 20) {
+        if (n < 11) {
             let queens = this.result[this.state.res];
             for (var i=0; i < n; i++){
                 let cells = [];

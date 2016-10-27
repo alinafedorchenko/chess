@@ -25,7 +25,7 @@ export default class Input extends Component {
                     value={this.state.value}
                     onChange={this.handleSizeChange}
                     min="4"
-                    max="19"
+                    max="10"
                 />
                 <p>Solution: </p>
                 <input
