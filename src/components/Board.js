@@ -1,24 +1,19 @@
 import React, { Component } from 'react'
-import Input from './Input'
 
 export default class Board extends Component {
-    constructor() {
-        super();
-        this.state = {n: 5, res: 0};
+    constructor(props) {
+        super(props);
         this.result = [];
         this.listQueen = [];
-        this.board = new Array(this.state.n).fill(new Array(this.state.n).fill(0));
+        this.board = new Array(props.size).fill(new Array(props.size).fill(0));
     }
 
-    onSizeChanged = (newSize) =>{
-        this.setState({n: newSize, res: 0});
+    componentWillReceiveProps = (nextProps) =>{
+        if (this.props.clear_result) {
+            this.result = [];
+        }
         this.listQueen = [];
-        this.board = new Array(parseInt(newSize)).fill(new Array(parseInt(newSize)).fill(0));
-        this.result = [];
-    }
-
-    onResultChanged = (newRes) => {
-        this.setState({res: newRes});
+        this.board = new Array(parseInt(nextProps.size)).fill(new Array(parseInt(nextProps.size)).fill(0));
     }
 
     allow(i, j) {
@@ -33,11 +28,11 @@ export default class Board extends Component {
 
     do_task(i = 0) {
 
-        for(var j = 0; j < this.state.n; j++) {
+        for(var j = 0; j < this.props.size; j++) {
             if (this.allow(i, j)) {
                 this.board[i][j] = 1;
                 this.listQueen.push({i: i, j: j});
-                if (i === this.state.n-1) {
+                if (i === this.props.size-1) {
                     this.result.push(this.listQueen.map(function(num) { return num; }));
                 } else {
                     this.do_task(i+1)
@@ -53,10 +48,10 @@ export default class Board extends Component {
         if (this.result.length == 0) {
             this.do_task();
         }
-        let n = this.state.n,
+        let n = this.props.size,
             rows = [];
         if (n < 11) {
-            let queens = this.result[this.state.res];
+            let queens = this.result[this.props.result];
             for (var i=0; i < n; i++){
                 let cells = [];
                 for (var j=0; j < n; j++) {
@@ -71,8 +66,7 @@ export default class Board extends Component {
         }
 
         return (
-            <div id="app">
-                <Input onSizeChanged={this.onSizeChanged} onResultChanged={this.onResultChanged}/>
+            <div>
                 <p>You have {this.result.length} solutions</p>
                 <table>
                     <tbody>
