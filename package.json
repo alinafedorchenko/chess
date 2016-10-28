@@ -26,7 +26,7 @@
     "npm-install-webpack-plugin": "^2.0.2",
     "postcss-loader": "~1.0.0",
     "precss": "~1.4.0",
-    "react-hot-loader": "~3.0.0-beta.6",
+    "react-hot-loader": "2.0.0-alpha-4",
     "style-loader": "~0.13.1",
     "webpack": "^1.12.12",
     "webpack-dev-middleware": "^1.5.1",
