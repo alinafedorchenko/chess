@@ -1,19 +1,16 @@
 import React, { Component } from 'react'
 
 export default class Input extends Component {
-    constructor() {
-        super();
-        this.state = {value: 5, res: 0};
+    constructor(props) {
+        super(props);
     }
 
     handleSizeChange = (event) => {
-        this.setState({value: event.target.value, res: 0});
-        this.props.onSizeChanged(event.target.value);
+        this.props.setSize(event.target.value)
     }
 
     handleResultChange = (event) => {
-        this.setState({res: event.target.value});
-        this.props.onResultChanged(event.target.value);
+        this.props.setResult(event.target.value)
     }
 
     render() {
@@ -22,7 +19,7 @@ export default class Input extends Component {
                 <p>Size:</p>
                 <input
                     type="number"
-                    value={this.state.value}
+                    defaultValue='5'
                     onChange={this.handleSizeChange}
                     min="4"
                     max="10"
@@ -30,7 +27,7 @@ export default class Input extends Component {
                 <p>Solution: </p>
                 <input
                     type="number"
-                    value={this.state.res}
+                    value={this.props.result}
                     onChange={this.handleResultChange}
                     min="0"
                 />
